@@ -6,7 +6,7 @@ document.body.insertAdjacentHTML('afterbegin', `
       <p>Windows OS</p>
       <p>EN</p>
     </div>
-    <textarea id="area"></textarea>
+    <textarea id="area" readonly></textarea>
   </div>
   <p>Press Shift + Alt to switch language</p>
   <div class="keyboard">
@@ -137,7 +137,6 @@ document.addEventListener('keydown', (event) => {
 
   if (key === 'ShiftRight' || key === 'ShiftLeft') {
      updateKeysContent(lettersEngShift); 
-     
   }
 
   if (key === 'CapsLock') {
@@ -150,8 +149,39 @@ document.addEventListener('keydown', (event) => {
   }
 
   if (content.length === 1) {
-    textarea.value += content;
+    const cursorPos = textarea.selectionStart;
+    const textBeforeCursor = textarea.value.substring(0, cursorPos);
+    const textAfterCursor = textarea.value.substring(cursorPos);
+    textarea.value = textBeforeCursor + content + textAfterCursor;
+    textarea.selectionStart = cursorPos + 1;
+    textarea.selectionEnd = cursorPos + 1;
+    textarea.focus();
   }
+
+  if (key === 'Enter') {
+    textarea.value += '\n'; 
+  }
+
+  if (key === 'Backspace') {
+    textarea.value = textarea.value.slice(0, -1);  
+  }
+
+  if (key === 'Delete' && textarea.selectionStart < textarea.value.length) {
+    textarea.value = textarea.value.slice(0, -1);  
+  }
+
+  if (key === 'ArrowLeft') {
+    textarea.selectionStart -= 1;
+    textarea.selectionEnd = textarea.selectionStart +1;   
+    textarea.focus();
+  } 
+
+  if (key === 'ArrowRight') {
+    textarea.selectionStart += 1;
+    textarea.selectionEnd = textarea.selectionStart +1;   
+    textarea.focus();
+  } 
+
 
 
 });
@@ -169,16 +199,12 @@ document.addEventListener('keyup', (event) => {
     cells[31].style.backgroundColor = '';
     cells[31].style.transform = '';
     isCapsLockOn = false;   
-    
- } 
+} 
 
 if (isCapsLockOn === true) {
-  console.log(isCapsLockOn)
-  cells[31].style.backgroundColor = 'lightblue';
+    cells[31].style.backgroundColor = 'lightblue';
     cells[31].style.transform = 'scale(0.9)';
 }
-
-
 
 });
 
