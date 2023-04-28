@@ -75,6 +75,13 @@ textarea {
     grid-column-end: 3;
   }
 
+  .cell:nth-child(57) {
+    grid-row-start: 4;
+    grid-row-end: 4;
+    grid-column-start: 14;
+    grid-column-end: 16;
+  }
+
   .cell:nth-child(62) {
     grid-row-start: 5;
     grid-row-end: 5;
@@ -82,6 +89,7 @@ textarea {
     grid-column-end: 11;
   }
   
+ 
   
   
 
