@@ -129,7 +129,7 @@ let letters = lettersEng;
 document.addEventListener('keydown', (event) => {
   const key = event.code;
   const content = keys[key].textContent
-  
+    
   if (key in keys) {
     keys[key].style.backgroundColor = 'lightblue';
     keys[key].style.transform = 'scale(0.9)';
@@ -150,16 +150,24 @@ document.addEventListener('keydown', (event) => {
 
   if (content.length === 1) {
     const cursorPos = textarea.selectionStart;
-    const textBeforeCursor = textarea.value.substring(0, cursorPos);
-    const textAfterCursor = textarea.value.substring(cursorPos);
-    textarea.value = textBeforeCursor + content + textAfterCursor;
+    textarea.value = textarea.value.slice(0, cursorPos) + content + textarea.value.slice(cursorPos);
     textarea.selectionStart = cursorPos + 1;
     textarea.selectionEnd = cursorPos + 1;
-    textarea.focus();
+  }
+
+  if (key === 'Tab') {
+    event.preventDefault();
+    const cursorPos = textarea.selectionStart;
+    textarea.value = textarea.value.slice(0, cursorPos) + '\t' + textarea.value.slice(cursorPos);
+    textarea.selectionStart = cursorPos + 1;
+    textarea.selectionEnd = cursorPos + 1;
   }
 
   if (key === 'Enter') {
-    textarea.value += '\n'; 
+    const cursorPos = textarea.selectionStart;
+    textarea.value = textarea.value.slice(0, cursorPos) + '\n' + textarea.value.slice(cursorPos);
+    textarea.selectionStart = cursorPos + 1;
+    textarea.selectionEnd = cursorPos + 1;
   }
 
   if (key === 'Backspace') {
@@ -182,9 +190,26 @@ document.addEventListener('keydown', (event) => {
     textarea.focus();
   } 
 
+  if (key === 'ArrowDown') {
+    const currentCursorPosition = textarea.selectionStart
+    const numberInCurrentString = currentCursorPosition - textarea.value.lastIndexOf('\n', currentCursorPosition)
+    textarea.selectionStart = textarea.value.indexOf('\n', currentCursorPosition) + numberInCurrentString;
+    textarea.selectionEnd = textarea.selectionStart +1; 
+    textarea.focus();
+  } 
 
+  if (key === 'ArrowUp') {
+    const currentCursorPosition = textarea.selectionStart
+    const prevStringEnd = textarea.value.lastIndexOf('\n', currentCursorPosition)
+    const numberInCurrentString = currentCursorPosition - prevStringEnd
+    textarea.selectionStart = textarea.value.lastIndexOf('\n', prevStringEnd-1) + numberInCurrentString;
+    textarea.selectionEnd = textarea.selectionStart +1; 
+    textarea.focus();
+  } 
 
 });
+
+
 
 
 document.addEventListener('keyup', (event) => {
