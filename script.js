@@ -24,9 +24,16 @@ const lettersEng = ['`','1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '
   ];
 
   const lettersEngShift = ['~','!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace',
-    'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '{', '}', '|','Del',
-    'a', 's', 'CapsLock', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ':', '"', 
-        'z', 'x', 'Enter', 'Shift','c', 'v', 'b', 'n', 'm', '<', '>', '?', ' ↑ ', 'Ctrl',
+    'Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '|','Del',
+    'A', 'S', 'CapsLock', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', 
+        'Z', 'X', 'Enter', 'Shift','C', 'V', 'B', 'N', 'M', '<', '>', '?', ' ↑ ', 'Ctrl',
+    'Win', 'Shift', 'Alt', 'Alt', ' ← ', ' ↓ ', ' ', ' → ', 'Ctrl'
+  ];
+
+  const lettersEngCaps = ['`','1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
+    'Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\','Del',
+    'A', 'S', 'CapsLock', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', "'", 
+        'Z', 'X', 'Enter', 'Shift','C', 'V', 'B', 'N', 'M', ',', '.', '/', ' ↑ ', 'Ctrl',
     'Win', 'Shift', 'Alt', 'Alt', ' ← ', ' ↓ ', ' ', ' → ', 'Ctrl'
   ];
 
@@ -41,6 +48,7 @@ let letters = lettersEng;
 
   const cells = document.querySelectorAll('.cell');
   const textarea = document.getElementById('area');
+  let isCapsLockOn = false;
 
 
   const keys = {
@@ -111,34 +119,34 @@ let letters = lettersEng;
   }
   
   
-  function updateKeysContent() {
-   
-     
-     for (let i=0; i<letters.length; i++){
-
-      cells[i].textContent = lettersEngShift[i]
+  function updateKeysContent(letters) {
+      for (let i=0; i<letters.length; i++){
+        cells[i].textContent = letters[i]
      }
-     
-      // for (let key in keys) {        
-        
-      //     console.log(keys[key].textContent , lettersEngShift[key])
-      //     keys[key].textContent = lettersEngShift[key];
-        
-      // }
-    
-  }
+   }
 
 
 document.addEventListener('keydown', (event) => {
   const key = event.code;
   const content = keys[key].textContent
+  
   if (key in keys) {
     keys[key].style.backgroundColor = 'lightblue';
     keys[key].style.transform = 'scale(0.9)';
   }
-  
-  if (key === 'ShiftRight' || key === 'ShiftLeft' || key === 'CapsLock') {
-     updateKeysContent();    
+
+  if (key === 'ShiftRight' || key === 'ShiftLeft') {
+     updateKeysContent(lettersEngShift); 
+     
+  }
+
+  if (key === 'CapsLock') {
+    isCapsLockOn = !isCapsLockOn;
+    if (isCapsLockOn) {
+      updateKeysContent(lettersEngCaps);
+    } else {
+      updateKeysContent(lettersEng);
+    }
   }
 
   if (content.length === 1) {
@@ -155,6 +163,23 @@ document.addEventListener('keyup', (event) => {
     keys[key].style.backgroundColor = '';
     keys[key].style.transform = '';
   }
+  
+  if (key === 'ShiftRight' || key === 'ShiftLeft') {
+    updateKeysContent(lettersEng);    
+    cells[31].style.backgroundColor = '';
+    cells[31].style.transform = '';
+    isCapsLockOn = false;   
+    
+ } 
+
+if (isCapsLockOn === true) {
+  console.log(isCapsLockOn)
+  cells[31].style.backgroundColor = 'lightblue';
+    cells[31].style.transform = 'scale(0.9)';
+}
+
+
+
 });
 
   
