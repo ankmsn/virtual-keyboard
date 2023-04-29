@@ -1,3 +1,5 @@
+import {lettersEng, lettersEngShift, lettersEngCaps, lettersUkr, lettersUkrShift, lettersUkrCaps} from '/data.js'
+
 document.body.insertAdjacentHTML('afterbegin', `
 <div class="wrapper">
   <div class="textarea">
@@ -15,61 +17,16 @@ document.body.insertAdjacentHTML('afterbegin', `
 `);
 
 const grid = document.querySelector('.grid');
-
-let lettersEng = ['`','1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
-    'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\','Del',
-    'a', 's', 'CapsLock', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 
-        'z', 'x', 'Enter', 'Shift','c', 'v', 'b', 'n', 'm', ',', '.', '/', ' ↑ ', 'Ctrl',
-    'Win', 'Shift', 'Alt', 'Alt', ' ← ', ' ↓ ', ' ', ' → ', 'Ctrl'
-  ];
-
-  let lettersEngShift = ['~','!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace',
-    'Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '|','Del',
-    'A', 'S', 'CapsLock', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', 
-        'Z', 'X', 'Enter', 'Shift','C', 'V', 'B', 'N', 'M', '<', '>', '?', ' ↑ ', 'Ctrl',
-    'Win', 'Shift', 'Alt', 'Alt', ' ← ', ' ↓ ', ' ', ' → ', 'Ctrl'
-  ];
-
-  let lettersEngCaps = ['`','1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
-    'Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\','Del',
-    'A', 'S', 'CapsLock', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', "'", 
-        'Z', 'X', 'Enter', 'Shift','C', 'V', 'B', 'N', 'M', ',', '.', '/', ' ↑ ', 'Ctrl',
-    'Win', 'Shift', 'Alt', 'Alt', ' ← ', ' ↓ ', ' ', ' → ', 'Ctrl'
-  ];
-
-  let lettersUkr = ["'",'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
-    'Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ї', '\\','Del',
-    'ф', 'і', 'CapsLock', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'є', 
-        'я', 'ч', 'Enter', 'Shift','с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', ' ↑ ', 'Ctrl',
-    'Win', 'Shift', 'Alt', 'Alt', ' ← ', ' ↓ ', ' ', ' → ', 'Ctrl'
-  ];
-
-  let lettersUkrShift = ["₴",'!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+', 'Backspace',
-  'Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ї', '/','Del',
-  'Ф', 'І', 'CapsLock', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Є', 
-      'Я', 'Ч', 'Enter', 'Shift','С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', ',', ' ↑ ', 'Ctrl',
-  'Win', 'Shift', 'Alt', 'Alt', ' ← ', ' ↓ ', ' ', ' → ', 'Ctrl'
-];
-
-let lettersUkrCaps = ["'",'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
-'Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ї', '/','Del',
-  'Ф', 'І', 'CapsLock', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Є', 
-      'Я', 'Ч', 'Enter', 'Shift','С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', ',', ' ↑ ', 'Ctrl',
-'Win', 'Shift', 'Alt', 'Alt', ' ← ', ' ↓ ', ' ', ' → ', 'Ctrl'
-];
-
-
 let letters;
 let lettersShift;
 let lettersCaps;
 let langText = document.querySelector('.top-text > p:last-child');
 let langInstruction = document.querySelector('.wrapper > p');
 
-
 function selectEng () {
   letters = lettersEng;
   lettersShift = lettersEngShift;
-  lettersCaps = lettersEngShift;
+  lettersCaps = lettersEngCaps;
   langText.textContent = 'ENG'
   langInstruction.textContent = 'Press Shift + Alt to switch language'
   localStorage.setItem("language", "ENG");
@@ -90,7 +47,6 @@ if (localStorage.getItem("language") === 'ENG' || !localStorage.getItem("languag
   selectUkr ();
 }
 
-
   letters.forEach(letter => {
     const cell = document.createElement('div');
     cell.textContent = letter;
@@ -98,11 +54,9 @@ if (localStorage.getItem("language") === 'ENG' || !localStorage.getItem("languag
     grid.appendChild(cell);
   });
 
-
   const cells = document.querySelectorAll('.cell');
   const textarea = document.getElementById('area');
   let isCapsLockOn = false;
-
 
   const keys = {
     'Backquote': cells[0],
@@ -170,14 +124,12 @@ if (localStorage.getItem("language") === 'ENG' || !localStorage.getItem("languag
     'ArrowRight': cells[62],
     'ControlRight': cells[63]
   }
-  
-  
+
   function updateKeysContent(letters) {
       for (let i=0; i<letters.length; i++){
         cells[i].textContent = letters[i]
      }
    }
-
 
 document.addEventListener('keydown', (event) => {
   const key = event.code;
@@ -270,9 +222,6 @@ document.addEventListener('keydown', (event) => {
 
 });
 
-
-
-
 document.addEventListener('keyup', (event) => {
   const key = event.code;
   if (key in keys) {
@@ -293,8 +242,6 @@ if (isCapsLockOn === true) {
 }
 
 });
-
-
 
 cells.forEach(cell => {
   cell.addEventListener('click', () => {
@@ -345,13 +292,3 @@ setTimeout(() => {
 }, 300);
 });
 });
-
-
-
-
-
-
-
-
-
-
