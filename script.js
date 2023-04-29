@@ -233,72 +233,62 @@ if (isCapsLockOn === true) {
 
 });
 
-  
-
-  
 
 
+cells.forEach(cell => {
+  cell.addEventListener('click', () => {
+    const key = cell.textContent;
+    if (key === 'Backspace') {
+      textarea.value = textarea.value.slice(0, -1);
+    }
+    if (key === 'Enter') {
+      textarea.value += '\n';
+    }
+    if (key === 'Tab') {
+      textarea.value += '\t';
+    }
+    if (key === 'Space') {
+      textarea.value += ' ';
+    }
 
-// document.addEventListener('keydown', (event) => {
-//     const key = event.key;
-//     cells.forEach(cell => {
-//       if (cell.textContent === key) {
-//         cell.style.backgroundColor = 'lightblue';
-//         cell.style.transform = 'scale(0.9)';
-//       }
-//     });
-  
-//     if (key === 'Backspace') {
-//       textarea.value = textarea.value.slice(0, -1);
-//     } else if (key.length === 1) {
-//       textarea.value += key;
-//     }
-//   });
-  
-//   document.addEventListener('keyup', (event) => {
-//     const key = event.key;
-//     const cells = document.querySelectorAll('.cell');
-    
-//     cells.forEach(cell => {
-//       if (cell.textContent === key) {
-//         cell.style.backgroundColor = '';
-//         cell.style.transform = '';
-//       }
-//     });
-//   });
+    if (key.length === 1) {
+      textarea.value += key;
+    }
 
-// cells.forEach(cell => {
-//   cell.addEventListener('click', () => {
-//     const key = cell.textContent;
-//     if (key === 'Backspace') {
-//       textarea.value = textarea.value.slice(0, -1);
-//     } else if (key === 'ENTER') {
-//       textarea.value += '\n';
-//     } else if (key === 'Tab') {
-//       textarea.value += '\t';
-//     } else if (key === 'Space') {
-//       textarea.value += ' ';
-//     } else if (key.length === 1) {
-//       textarea.value += key;
-//     }
-//     cell.style.backgroundColor = 'lightblue';
-//     cell.style.transform = 'scale(0.9)';
-//     setTimeout(() => {
-//       cell.style.backgroundColor = '';
-//       cell.style.transform = '';
-//     }, 300);
-//   });
-// });
+    cell.style.backgroundColor = 'lightblue';
+    cell.style.transform = 'scale(0.9)';
+
+    if (key === 'CapsLock') {
+      isCapsLockOn = !isCapsLockOn;
+      if (isCapsLockOn) {
+        updateKeysContent(lettersEngCaps);
+      } else {
+        cell.style.backgroundColor = '';
+        cell.style.transform = '';
+        updateKeysContent(lettersEng);
+      }
+    }
+
+    if (key === 'Shift') {
+      cells[31].style.backgroundColor = '';
+      cells[31].style.transform = '';
+      isCapsLockOn = false;
+      updateKeysContent(lettersEng);
+    }
+
+setTimeout(() => {
+  if (key !== 'CapsLock') {
+    cell.style.backgroundColor = '';
+    cell.style.transform = '';
+  }
+}, 300);
+});
+});
 
 
 
 
-// console.log(cells.innerText)
 
-
-// const obj = {
-
-// }
 
 
 
