@@ -198,11 +198,17 @@ document.addEventListener('keydown', (event) => {
   }
 
   if (key === 'Backspace') {
-    textarea.value = textarea.value.slice(0, -1);
+    const cursorPos = textarea.selectionStart;
+    textarea.value = textarea.value.slice(0, cursorPos - 1) + textarea.value.slice(cursorPos);
+    textarea.selectionStart = cursorPos + 1;
+    textarea.selectionEnd = cursorPos + 1;
   }
 
-  if (key === 'Delete' && textarea.selectionStart < textarea.value.length) {
-    textarea.value = textarea.value.slice(0, -1);
+  if (key === 'Delete') {
+    const cursorPos = textarea.selectionStart;
+    textarea.value = textarea.value.slice(0, cursorPos) + textarea.value.slice(cursorPos + 1);
+    textarea.selectionStart = cursorPos + 1;
+    textarea.selectionEnd = cursorPos + 1;
   }
 
   if (key === 'ArrowLeft') {
@@ -259,20 +265,28 @@ cells.forEach((cell) => {
   cell.addEventListener('click', () => {
     const key = cell.textContent;
     if (key === 'Backspace') {
-      textarea.value = textarea.value.slice(0, -1);
+      const cursorPos = textarea.selectionStart;
+      textarea.value = textarea.value.slice(0, cursorPos - 1) + textarea.value.slice(cursorPos);
+      textarea.selectionStart = cursorPos + 1;
+      textarea.selectionEnd = cursorPos + 1;
     }
     if (key === 'Enter') {
-      textarea.value += '\n';
+      const cursorPos = textarea.selectionStart;
+      textarea.value = `${textarea.value.slice(0, cursorPos)}\n${textarea.value.slice(cursorPos)}`;
+      textarea.selectionStart = cursorPos + 1;
+      textarea.selectionEnd = cursorPos + 1;
     }
     if (key === 'Tab') {
-      textarea.value += '\t';
+      const cursorPos = textarea.selectionStart;
+      textarea.value = `${textarea.value.slice(0, cursorPos)}\t${textarea.value.slice(cursorPos)}`;
+      textarea.selectionStart = cursorPos + 1;
+      textarea.selectionEnd = cursorPos + 1;
     }
-    if (key === 'Space') {
-      textarea.value += ' ';
-    }
-
     if (key.length === 1) {
-      textarea.value += key;
+      const cursorPos = textarea.selectionStart;
+      textarea.value = textarea.value.slice(0, cursorPos) + key + textarea.value.slice(cursorPos);
+      textarea.selectionStart = cursorPos + 1;
+      textarea.selectionEnd = cursorPos + 1;
     }
 
     highlightCell(cell);
